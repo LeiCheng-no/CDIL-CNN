@@ -60,7 +60,7 @@ class Block(nn.Module):
 
 # conv: CDIL and TCN
 class ConvPart(nn.Module):
-    def __init__(self, model_name, num_inputs, num_channels, kernel_size, dropout):
+    def __init__(self, model_name, num_inputs, num_channels, kernel_size, dropout=0):
         super(ConvPart, self).__init__()
         layers = []
         num_levels = len(num_channels)

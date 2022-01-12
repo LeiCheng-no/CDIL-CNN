@@ -75,12 +75,12 @@ KERNEL_SIZE = 3
 if MODEL == 'CDIL' or MODEL == 'TCN' or MODEL == 'CNN':
     LAYER = int(np.log2(SEQ_LEN))
     NHID = args.hidden_cnn
-    net = ConvNet(MODEL, INPUT_SIZE, CLASS, SEQ_LEN, [NHID] * LAYER, KERNEL_SIZE, use_CUDA)
+    net = ConvNet(MODEL, INPUT_SIZE, CLASS, [NHID] * LAYER, KERNEL_SIZE)
     receptive_field(seq_length=SEQ_LEN, model=MODEL, kernel_size=KERNEL_SIZE, layer=LAYER)
 elif MODEL == 'LSTM' or MODEL == 'GRU':
     LAYER = args.layer_rnn
     NHID = args.hidden_rnn
-    net = RNN(MODEL, INPUT_SIZE, CLASS, SEQ_LEN, NHID, LAYER, use_CUDA)
+    net = RNN(MODEL, INPUT_SIZE, CLASS, NHID, LAYER)
 elif MODEL == "Transformer":
     net = TransformerHead(dim=DIM, heads=HEAD, depth=DEPTH, n_vec=SEQ_LEN, n_class=CLASS)
 elif MODEL == "Linformer":

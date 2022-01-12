@@ -49,12 +49,12 @@ if MODEL == "CDIL" or MODEL == "TCN":
     LAYER = int(np.log2(SEQ_LEN)) - 1
     NHID = cfg_model["hidden"]
     KERNEL_SIZE = cfg_model["kernel_size"]
-    net = ConvNet(MODEL, INPUT_SIZE, CLASS, SEQ_LEN, [NHID] * LAYER, KERNEL_SIZE)
+    net = ConvNet(MODEL, INPUT_SIZE, CLASS, [NHID] * LAYER, KERNEL_SIZE)
     receptive_field(seq_length=SEQ_LEN, model=MODEL, kernel_size=KERNEL_SIZE, layer=LAYER)
 elif MODEL == "LSTM" or MODEL == "GRU":
     LAYER = cfg_model["layer"]
     NHID = cfg_model["hidden"]
-    net = RNN(MODEL, INPUT_SIZE, CLASS, SEQ_LEN, NHID, LAYER)
+    net = RNN(MODEL, INPUT_SIZE, CLASS, NHID, LAYER)
 elif MODEL == "Transformer" or MODEL == "Linformer" or MODEL == "Performer":
     DIM = cfg_model["dim"]
     DEPTH = cfg_model["depth"]

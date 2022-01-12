@@ -128,8 +128,6 @@ def TrainModel(
                     val_loss += loss(pred.squeeze(), Y).item()
                     _, predicted = pred.max(1)
                     total_val += Y.size(0)
-
-                    _, predicted = pred.max(1)
                     correct_val += predicted.eq(Y).sum().item()
                 loginf("Val  loss: {}".format(val_loss / len(valloader)))
                 accuracy_val = 100. * correct_val / total_val
@@ -148,8 +146,6 @@ def TrainModel(
                         test_loss += loss(pred.squeeze(), Y).item()
                         _, predicted = pred.max(1)
                         total_test += Y.size(0)
-
-                        _, predicted = pred.max(1)
                         correct_test += predicted.eq(Y).sum().item()
                     loginf("Test loss: {}".format(test_loss / len(testloader)))
                     accuracy_test = 100. * correct_test / total_test

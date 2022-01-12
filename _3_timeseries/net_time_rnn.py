@@ -4,11 +4,8 @@ import torch.nn as nn
 
 
 class RNN(nn.Module):
-    def __init__(self, model_name, input_size, output_size, seq_len, hidden_size, num_layers, use_cuda, dropout=0, bi=False):
+    def __init__(self, model_name, input_size, output_size, hidden_size, num_layers, dropout=0, bi=False):
         super(RNN, self).__init__()
-
-        self.n_vec = seq_len
-        self.use_cuda = use_cuda
 
         if model_name == 'LSTM':
             self.rnn_func = nn.LSTM(input_size=input_size, hidden_size=hidden_size, num_layers=num_layers, dropout=dropout, bidirectional=bi)

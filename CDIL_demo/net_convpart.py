@@ -1,3 +1,5 @@
+# come from _3_timeseries.net_time_conv.py
+
 import sys
 import torch
 import torch.nn as nn
@@ -87,25 +89,3 @@ class ConvPart(nn.Module):
 
     def forward(self, x):
         return self.network(x)
-
-
-# model: CNN, CDIL and TCN
-class ConvNet(nn.Module):
-    def __init__(self, model_name, input_size, output_size, num_channels, kernel_size, dropout=0):
-        super(ConvNet, self).__init__()
-        self.name = model_name
-        self.conv = ConvPart(model_name, input_size, num_channels, kernel_size, dropout)
-        self.linear = nn.Linear(num_channels[-1], output_size)
-
-    def forward(self, x):
-        # print(x.shape)
-        # print(x)
-        x = x.permute(0, 2, 1).to(dtype=torch.float)
-        # print(x.shape)
-        # print(x)
-        y_conv = self.conv(x)   # x, y: num, channel(dim), length
-        if self.name == 'TCN':
-            y = self.linear(y_conv[:, :, -1])
-        else:
-            y = self.linear(torch.mean(y_conv, dim=2))
-        return y
