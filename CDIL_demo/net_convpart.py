@@ -1,20 +1,8 @@
 # come from _3_timeseries.net_time_conv.py
 
 import sys
-import torch
 import torch.nn as nn
 from torch.nn.utils import weight_norm
-
-
-# CDIL
-class circle(nn.Module):
-    def __init__(self, circle_size):
-        super(circle, self).__init__()
-        self.circle_size = circle_size
-
-    def forward(self, x):
-        x_new = torch.cat([x[:, :, -self.circle_size:], x, x[:, :, :self.circle_size]], dim=2)
-        return x_new.contiguous()
 
 
 # TCN
@@ -35,9 +23,8 @@ class Block(nn.Module):
         self.dropout = nn.Dropout(dropout)
 
         if model_name == 'CDIL':
-            self.conv1 = weight_norm(nn.Conv1d(n_inputs, n_outputs, kernel_size, padding=0, dilation=dilation))
-            self.padding = circle(padding)
-            self.net = nn.Sequential(self.padding, self.conv1, self.dropout)
+            self.conv1 = weight_norm(nn.Conv1d(n_inputs, n_outputs, kernel_size, padding=padding, padding_mode='circular', dilation=dilation))
+            self.net = nn.Sequential(self.conv1, self.dropout)
         elif model_name == 'TCN':
             self.conv1 = weight_norm(nn.Conv1d(n_inputs, n_outputs, kernel_size, padding=padding, dilation=dilation))
             self.cut = tcn(padding)
@@ -73,7 +60,7 @@ class ConvPart(nn.Module):
             if model_name == 'TCN' or model_name == 'CDIL':
                 dilation_size = 2 ** i
                 if model_name == 'TCN':
-                    this_padding = (kernel_size-1) * dilation_size
+                    this_padding = dilation_size*(kernel_size-1)
                 else:
                     this_padding = int(dilation_size*(kernel_size-1)/2)
             elif model_name == 'CNN':

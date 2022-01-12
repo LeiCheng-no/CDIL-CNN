@@ -1,7 +1,8 @@
 # Adding Problem
 
-import random
+import os
 import torch
+import random
 from tqdm import tqdm
 
 
@@ -29,14 +30,16 @@ def adding(sequences, n_data):
 
 
 def main():
+    os.makedirs("syn_datasets", exist_ok=True)
+
     size = 2000
     n_sequences = {
         'train': size,
         'val': size,
         'test': size
     }
-    # seq_lenths = [2**7, 2**8]
-    seq_lenths = [2 ** 7, 2 ** 8, 2 ** 9, 2 ** 10, 2 ** 11, 2 ** 12, 2 ** 13, 2 ** 14]
+    seq_lenths = [2**7, 2**8]
+    # seq_lenths = [2 ** 7, 2 ** 8, 2 ** 9, 2 ** 10, 2 ** 11, 2 ** 12, 2 ** 13, 2 ** 14]
     for seq_len in seq_lenths:
         print(f"Generation sequences for length={seq_len}")
         for ds, n_seq in n_sequences.items():

@@ -1,11 +1,11 @@
 import os
 import sys
+import torch
 import random
 import numpy as np
-import torch
-from torch.utils.data import Dataset
-from datetime import datetime
 from tqdm import tqdm
+from datetime import datetime
+from torch.utils.data import Dataset
 
 
 def seed_everything(seed=1234):
@@ -56,7 +56,6 @@ def TrainModel(
         eval_freq,
         optimizer,
         loss,
-        problem,
         saving_best,
         loginf
 ):
@@ -103,7 +102,7 @@ def TrainModel(
                     total_val += Y.size(0)
                     correct_val += (torch.abs(pred.squeeze() - Y) < 0.04).sum()
                 loginf("Val  loss: {}".format(val_loss / len(valloader)))
-                accuracy_val = 100. * correct_val / total_val
+                accuracy_val = correct_val / total_val * 100
                 loginf("Val  accuracy: {}".format(accuracy_val))
                 loginf('_' * 40)
                 net.train()
@@ -128,8 +127,3 @@ def TrainModel(
 
         if accuracy_test == 100:
             sys.exit()
-
-        # if accuracy_val >= saving_best:
-        #     saving_best = accuracy_val
-        #     saving_epoch = epoch
-        #     torch.save(net.state_dict(), '{}_epoch{}_acc{}_test{}.pt'.format(problem+str(length), saving_epoch, saving_best, accuracy_test))

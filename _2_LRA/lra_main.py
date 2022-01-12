@@ -1,19 +1,20 @@
+import os
+import sys
+import torch
+import logging
+import argparse
+from torch import nn, optim
+from torch.utils.data import DataLoader
+
+from dataset import LRADataset
+
 from net_lra_conv import ConvNet
 from net_lra_conv_rf import receptive_field
-
 from net_lra_rnn import RNN
 
 from lra_config import config
 from lra_utils import count_params, seed_everything, Net, NetDual, TrainModel
-from dataset import LRADataset
 
-import sys
-import torch
-from torch import nn, optim
-from torch.utils.data import DataLoader
-
-import logging
-import argparse
 parser = argparse.ArgumentParser(description='experiment')
 # dataset
 parser.add_argument('--problem', type=str, default='image')
@@ -78,6 +79,7 @@ if cfg_model["use_cuda"]:
 para_num = count_params(net)
 file_name = problem + '_P' + str(para_num) + '_' + MODEL + '_L' + str(LAYER) + '_EM' + str(INPUT_SIZE) + '_H' + str(NHID) + '_E' + str(EPOCH)
 
+os.makedirs("lra_log", exist_ok=True)
 log_file_name = './lra_log/' + file_name + '.txt'
 handlers = [logging.FileHandler(log_file_name), logging.StreamHandler()]
 logging.basicConfig(level=logging.INFO, format='%(message)s', handlers=handlers)
@@ -110,7 +112,6 @@ TrainModel(
     optimizer=optimizer,
     loss=loss,
     problem=problem,
-    length=SEQ_LEN,
     saving_best=0,
     loginf=loginf,
 )

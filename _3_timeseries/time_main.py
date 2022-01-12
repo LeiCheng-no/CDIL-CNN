@@ -1,5 +1,10 @@
-import pandas as pd
+import os
+import torch
+import logging
+import argparse
 import numpy as np
+import pandas as pd
+from torch import nn, optim
 from sklearn.model_selection import train_test_split
 
 from net_time_conv import ConvNet
@@ -9,12 +14,7 @@ from net_time_xformers import TransformerHead, LinformerHead, PerformerHead
 
 from time_utils import DatasetCreator, count_params, seed_everything, TrainModel
 
-import torch
-from torch import nn, optim
-import torch_geometric
 
-import logging
-import argparse
 parser = argparse.ArgumentParser(description='experiment')
 # dataset
 parser.add_argument('--problem', type=str, default='RightWhaleCalls')
@@ -97,7 +97,7 @@ if MODEL == 'CDIL' or MODEL == 'TCN' or MODEL == 'CNN' or MODEL == 'LSTM' or MOD
 else:
     file_name = DATASET + '_P' + str(para_num) + '_' + MODEL + '_D' + str(DIM) + '_H' + str(HEAD) + '_D' + str(DEPTH) +'_E' + str(EPOCH)
 
-
+os.makedirs("time_log", exist_ok=True)
 log_file_name = './time_log/' + file_name + '.txt'
 handlers = [logging.FileHandler(log_file_name), logging.StreamHandler()]
 logging.basicConfig(level=logging.INFO, format='%(message)s', handlers=handlers)
@@ -122,7 +122,7 @@ trainset = DatasetCreator(
     labels=labels_train
 )
 
-trainloader = torch_geometric.loader.DataLoader(
+trainloader = torch.utils.data.DataLoader(
     trainset,
     batch_size=BATCH_SIZE,
     shuffle=True,
@@ -136,7 +136,7 @@ valset = DatasetCreator(
     labels=labels_val
 )
 
-valloader = torch_geometric.loader.DataLoader(
+valloader = torch.utils.data.DataLoader(
     valset,
     batch_size=BATCH_SIZE,
     shuffle=False,
@@ -150,7 +150,7 @@ testset = DatasetCreator(
     labels=labels_test
 )
 
-testloader = torch_geometric.loader.DataLoader(
+testloader = torch.utils.data.DataLoader(
     testset,
     batch_size=BATCH_SIZE,
     shuffle=False,
@@ -168,8 +168,6 @@ TrainModel(
     eval_freq=1,
     optimizer=optimizer,
     loss=loss,
-    problem=problem,
-    length=SEQ_LEN,
     saving_best=0,
     loginf=loginf,
 )

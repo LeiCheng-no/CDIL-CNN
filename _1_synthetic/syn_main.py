@@ -1,3 +1,10 @@
+import os
+import torch
+import logging
+import argparse
+import numpy as np
+from torch import nn, optim
+
 from net_syn_conv import ConvNet
 from net_syn_conv_rf import receptive_field
 from net_syn_rnn import RNN
@@ -6,14 +13,7 @@ from net_syn_xformers import Transformers
 from syn_config import config
 from syn_utils import DatasetCreator, count_params, seed_everything, TrainModel
 
-import torch
-from torch import nn, optim
-import torch_geometric
 
-import numpy as np
-
-import logging
-import argparse
 parser = argparse.ArgumentParser(description="experiment")
 parser.add_argument("--length", type=int, default=128)
 parser.add_argument("--model", type=str, default="CDIL")
@@ -73,7 +73,7 @@ if MODEL == "CDIL" or MODEL == "TCN" or MODEL == "LSTM" or MODEL == "GRU":
 else:
     file_name = DATASET + "_S" + str(DATASIZE) + "_P" + str(para_num) + "_" + MODEL + '_D' + str(DIM) + '_H' + str(HEADS) + '_L' + str(DEPTH) + '_E' + str(EPOCH)
 
-
+os.makedirs("syn_log", exist_ok=True)
 log_file_name = "./syn_log/" + file_name + ".txt"
 handlers = [logging.FileHandler(log_file_name), logging.StreamHandler()]
 logging.basicConfig(level=logging.INFO, format="%(message)s", handlers=handlers)
@@ -107,7 +107,7 @@ trainset = DatasetCreator(
     labels=labels
 )
 
-trainloader = torch_geometric.data.DataLoader(
+trainloader = torch.utils.data.DataLoader(
     trainset,
     batch_size=cfg_training["batch_size"],
     shuffle=True,
@@ -121,7 +121,7 @@ valset = DatasetCreator(
     labels=labels_val
 )
 
-valloader = torch_geometric.data.DataLoader(
+valloader = torch.utils.data.DataLoader(
     valset,
     batch_size=cfg_training["batch_size"],
     shuffle=False,
@@ -135,7 +135,7 @@ testset = DatasetCreator(
     labels=labels_test
 )
 
-testloader = torch_geometric.data.DataLoader(
+testloader = torch.utils.data.DataLoader(
     testset,
     batch_size=cfg_training["batch_size"],
     shuffle=False,
@@ -153,7 +153,6 @@ TrainModel(
     eval_freq=cfg_training["eval_frequency"],
     optimizer=optimizer,
     loss=loss,
-    problem=problem,
     saving_best=0,
     loginf=loginf,
 )

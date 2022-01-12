@@ -82,8 +82,6 @@ def TrainModel(
         eval_freq,
         optimizer,
         loss,
-        problem,
-        length,
         saving_best,
         loginf
 ):

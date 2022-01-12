@@ -1,10 +1,10 @@
 import os
+import torch
 import random
 import numpy as np
-import torch
 import torch.nn as nn
-from datetime import datetime
 from tqdm import tqdm
+from datetime import datetime
 
 
 def seed_everything(seed=1234):
@@ -62,7 +62,6 @@ def TrainModel(
         optimizer,
         loss,
         problem,
-        length,
         saving_best,
         loginf
 ):

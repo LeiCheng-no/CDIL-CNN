@@ -1,8 +1,9 @@
 import torch
 import torch.nn as nn
-from performer_pytorch import Performer
 from linformer import Linformer
+from performer_pytorch import Performer
 from torch.nn import TransformerEncoder, TransformerEncoderLayer
+
 from time_utils import PositionalEncoding
 
 
