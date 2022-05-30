@@ -31,20 +31,30 @@ CDIL-CNN is a novel convolutional model for sequence classification. We use symm
 
 ### Synthetic Task
 To reproduce the synthetic data experiment results, you should:
-1. Run ***syn_data_generation.py***;
-2. Run ***syn_main.py*** for one experiment or run ***syn_all.sh*** for all experiments.
+1. Run ***xor_generation.py***;
+2. Run ***xor_main.py*** for one model or run ***xor_all.sh*** for all models.
 
-The generator will create 6 files for each sequence length and store them in the **./syn_datasets/** folder in the following format:
-`adding2000_{length}_train.pt`
-`adding2000_{length}_train_target.pt`
-`adding2000_{length}_test.pt`
-`adding2000_{length}_test_target.pt`
-`adding2000_{length}_val.pt`
-`adding2000_{length}_val_target.pt`
+The generator will create 3 files for each sequence length and store them in the **./xor_datasets/** folder in the following format:
+`xor_{length}_train.pt`
+`xor_{length}_test.pt`
+`xor_{length}_val.pt`
 
-By default, it iterates over 8 sequence lengths: `[2**7, 2**8, 2**9, 2**10, 2**11, 2**12, 2**13, 2**14]`.
+The **./xor_log/** folder will save all results.
+The **./xor_model/** folder will save all best models.
 
-You can run different models for different lengths. The **./syn_log/** folder will save all results.
+
+To reproduce the dissimilar experiment results, you should:
+1. Run ***dissimilar_generation.py***;
+2. Run ***dissimilar_main.py*** for one model or run ***dissimilar_all.sh*** for all models.
+
+The generator will create 4 files for sequence length of 2048 and store them in the **./dissimilar_datasets/** folder in the following format:
+`dissimilar_2048_train.pt`
+`dissimilar_2048_test.pt`
+`dissimilar_2048_val.pt`
+`dissimilar_2048_dtest.pt`
+
+The **./dissimilar_log/** folder will save all results.
+The **./dissimilar_model/** folder will save all best models.
 
 We provide our used configurations in ***syn_config.py***.
 
@@ -61,7 +71,8 @@ The dataset creators will create 3 files for each task and store them in the **.
 `{task}.test.pickle`
 `{task}.dev.pickle`
 
-You can run different models on different tasks. The **./lra_log/** folder will save all results.
+The **./lra_log/** folder will save all results.
+The **./lra_model/** folder will save all best models.
 
 We provide our used configurations in ***lra_config.py***.
 
@@ -71,13 +82,33 @@ The [UEA & UCR Repository](http://www.timeseriesclassification.com/) consists of
 
 To reproduce the time series results, you should:
 1. Download the datasets, extract them, move the extracted folders into our **./time_datasets/** folder, and run ***time_arff_generation.py***. 
-2. Run ***time_main.py*** for one experiment or run ***time_all.sh*** for all experiments.
+2. Run ***time_main.py*** or  for one experiment or run ***time_all.sh*** for all experiments.
 
-The generator will create 2 files for each dataset and store them in the **./time_datasets/** folder in the following format:
+The generator will create 3 files for each dataset and store them in the **./time_datasets/** folder in the following format:
 `{dataset}_train.csv`
+`{dataset}_val.csv`
 `{dataset}_test.csv`
 
-You can run different models on different datasets. The **./time_log/** folder will save all results.
+The **./time_log/** folder will save all results.
+The **./time_model/** folder will save all best models.
 
-We provide our used configurations in ***time_main.py***.
+To reproduce the noisy RightWhaleCalls results, you should:
+1. Run ***noise_generation.py***;
+2. Run ***noise_main.py*** for one model or run ***noise_all.sh*** for all models.
+
+The generator will create 8 files for each dataset and store them in the **./noise_datasets/** folder in the following format:
+`RightWhaleCalls_train_data.csv`
+`RightWhaleCalls_train_label.csv`
+`RightWhaleCalls_val_data.csv`
+`RightWhaleCalls_val_label.csv`
+`RightWhaleCalls_test_data.csv`
+`RightWhaleCalls_test_label.csv`
+`RightWhaleCalls_dtest_data.csv`
+`RightWhaleCalls_dtest_label.csv`
+
+The **./noise_log/** folder will save all results.
+The **./noise_model/** folder will save all best models.
+
+
+We provide our used configurations in ***time_config.py***.
 
