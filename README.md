@@ -1,6 +1,6 @@
 # Classification of Long Sequential Data using Circular Dilated Convolutional Neural Networks
 
-arXiv preprint: [https://arxiv.org/abs/2201.02143](https://arxiv.org/abs/2201.02143). 
+paper: [https://doi.org/10.1016/j.neucom.2022.10.054](https://doi.org/10.1016/j.neucom.2022.10.054). 
 
 ## **Architecture**
 CDIL-CNN is a novel convolutional model for sequence classification. We use symmetric dilated convolutions, a circular mixing protocol, and an average ensemble learning.
