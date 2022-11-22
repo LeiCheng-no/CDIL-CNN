@@ -112,3 +112,13 @@ The **./noise_model/** folder will save all best models.
 
 We provide our used configurations in ***time_config.py***.
 
+# **Cite**
+```
+@article{cheng2022classification,
+  title={Classification of long sequential data using circular dilated convolutional neural networks},
+  author={Cheng, Lei and Khalitov, Ruslan and Yu, Tong and Zhang, Jing and Yang, Zhirong},
+  journal={Neurocomputing},
+  year={2022},
+  publisher={Elsevier}
+}
+```
